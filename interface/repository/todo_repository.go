@@ -9,11 +9,11 @@ import (
 )
 
 type todoRepository struct {
-	client *mongo.Client
+	db *mongo.Database
 }
 
 func (t *todoRepository) FindAll() ([]*model.Todo, error) {
-	coll := t.client.Database("todo").Collection("todos")
+	coll := t.db.Collection("todos")
 	cursor, err := coll.Find(context.TODO(), bson.D{})
 	if err != nil {
 		panic(err)
@@ -27,5 +27,5 @@ func (t *todoRepository) FindAll() ([]*model.Todo, error) {
 }
 
 func NewTodoRepository(client *mongo.Client) repository.TodoRepository {
-	return &todoRepository{client}
+	return &todoRepository{client.Database("todo")}
 }
