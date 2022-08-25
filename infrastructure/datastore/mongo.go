@@ -22,7 +22,7 @@ func Connect() *mongo.Client {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("Connected to mongodb.")
+	log.Println("MongoDB connection successful.")
 	return client
 }
 
