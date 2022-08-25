@@ -4,6 +4,7 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"log"
 	"os"
 )
@@ -17,6 +18,11 @@ func Connect() *mongo.Client {
 	if err != nil {
 		panic(err)
 	}
+	err = client.Ping(context.TODO(), readpref.Primary())
+	if err != nil {
+		panic(err)
+	}
+	log.Println("Connected to mongodb.")
 	return client
 }
 
