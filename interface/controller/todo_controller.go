@@ -17,7 +17,11 @@ type todoController struct {
 func (t *todoController) GetTodos(c *gin.Context) {
 	todos, err := t.TodoInteractor.GetAll()
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "todos not found"})
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	if todos == nil {
+		c.IndentedJSON(http.StatusNotFound, []int{})
 		return
 	}
 	c.IndentedJSON(http.StatusOK, todos)
