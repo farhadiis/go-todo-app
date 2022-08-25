@@ -2,14 +2,15 @@ package model
 
 import (
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 )
 
 type Todo struct {
-	ID    string    `json:"id"`
-	Title string    `json:"title"`
-	Body  string    `json:"body"`
-	Date  time.Time `json:"date"`
+	ID        primitive.ObjectID `bson:"_id" json:"_id"`
+	Title     string             `bson:"title" json:"title"`
+	Body      string             `bson:"body" json:"body"`
+	CreatedAt time.Time          `bson:"createdAt" json:"createdAt"`
 }
 
 func (t Todo) String() string {
