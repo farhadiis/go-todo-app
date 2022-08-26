@@ -5,10 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewRouter(e *gin.Engine, c controller.AppController) *gin.Engine {
+func NewRouter(app *gin.Engine, c controller.AppController) *gin.Engine {
 
-	e.GET("/api/v1/todos", c.GetTodos)
-	e.POST("/api/v1/todos", c.CreateTodo)
+	app.GET("/api/v1/todos", c.GetTodos)
+	app.POST("/api/v1/todos", c.CreateTodo)
 
-	return e
+	return app
 }
