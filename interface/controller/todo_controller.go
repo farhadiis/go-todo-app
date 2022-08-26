@@ -10,6 +10,7 @@ import (
 type TodoController interface {
 	GetTodos(*gin.Context)
 	CreateTodo(*gin.Context)
+	DeleteTodo(*gin.Context)
 }
 
 type todoController struct {
@@ -41,6 +42,20 @@ func (t *todoController) CreateTodo(c *gin.Context) {
 		return
 	}
 	c.IndentedJSON(http.StatusCreated, gin.H{"_id": id})
+}
+
+func (t *todoController) DeleteTodo(c *gin.Context) {
+	id := c.Param("id")
+	ok, err := t.TodoInteractor.Delete(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if ok {
+		c.IndentedJSON(http.StatusOK, gin.H{"_id": id, "deleted": ok})
+	} else {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"_id": id, "deleted": ok})
+	}
 }
 
 func NewTodoController(ti interactor.TodoInteractor) TodoController {

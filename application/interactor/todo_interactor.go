@@ -9,6 +9,7 @@ import (
 type TodoInteractor interface {
 	GetAll() ([]*model.Todo, error)
 	Create(*model.Todo) (string, error)
+	Delete(string) (bool, error)
 }
 
 type todoInteractor struct {
@@ -30,6 +31,14 @@ func (t *todoInteractor) Create(todo *model.Todo) (string, error) {
 		return "", err
 	}
 	return id, nil
+}
+
+func (t *todoInteractor) Delete(id string) (bool, error) {
+	count, err := t.TodoRepository.DeleteOne(id)
+	if err != nil {
+		return false, err
+	}
+	return count == 1, nil
 }
 
 func NewTodoInteractor(r repository.TodoRepository, p presenter.TodoPresenter) TodoInteractor {
