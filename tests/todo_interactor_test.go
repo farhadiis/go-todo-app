@@ -19,9 +19,12 @@ var (
 	mockTodos = []*model.Todo{mockTodo}
 )
 
-type MockRepository struct {
-	DataStore []*model.Todo
-}
+type (
+	MockPresenter  struct{}
+	MockRepository struct {
+		DataStore []*model.Todo
+	}
+)
 
 func (m *MockRepository) FindAll() ([]*model.Todo, error) {
 	return m.DataStore, nil
@@ -50,8 +53,6 @@ func (m *MockRepository) DeleteOne(id string) (int64, error) {
 	}
 	return -1, errors.New("todo not found")
 }
-
-type MockPresenter struct{}
 
 func (m *MockPresenter) ResponseTodos(todos []*model.Todo) []*model.Todo {
 	return todos
