@@ -7,7 +7,7 @@ An implementation of Todo app with Clean Architecture and GO language
 
 #### You can this apis to work with app
 
-```http
+```bash
   POST /api/v1/todo - create todo
   GET /api/v1/todo - get all todo
   GET /api/v1/todo/${id} - get todo by id 
