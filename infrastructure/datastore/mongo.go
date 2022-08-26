@@ -2,18 +2,15 @@ package datastore
 
 import (
 	"context"
+	"farhadiis/todo/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"log"
-	"os"
 )
 
 func Connect() *mongo.Client {
-	uri := os.Getenv("MONGODB_URI")
-	if uri == "" {
-		log.Fatal("You must set your 'MONGODB_URI' environmental variable.")
-	}
+	uri := utils.GetEnv("MONGODB_URI")
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
 		panic(err)
@@ -22,7 +19,7 @@ func Connect() *mongo.Client {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("MongoDB connection successful.")
+	log.Println("MongoDB connection successfully completed.")
 	return client
 }
 

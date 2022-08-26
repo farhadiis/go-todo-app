@@ -13,8 +13,8 @@ type registry struct {
 	MongoClient *mongo.Client
 }
 
-func NewRegistry(client *mongo.Client) Registry {
-	return &registry{client}
+func NewRegistry(mongoClient *mongo.Client) Registry {
+	return &registry{mongoClient}
 }
 
 func (r *registry) NewAppController() controller.AppController {
