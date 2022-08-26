@@ -19,6 +19,7 @@ An implementation of Todo app with Clean Architecture and GO language
 To deploy this project clone it and run
 
 ```bash
+  git clone https://github.com/farhadiis/go-todo-app
   cd go-todo-app
   export MONGODB_URI='<your connection string>'
   go run .
