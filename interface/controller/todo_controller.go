@@ -9,6 +9,7 @@ import (
 
 type TodoController interface {
 	GetTodos(*gin.Context)
+	GetTodo(*gin.Context)
 	CreateTodo(*gin.Context)
 	DeleteTodo(*gin.Context)
 }
@@ -28,6 +29,20 @@ func (t *todoController) GetTodos(c *gin.Context) {
 		return
 	}
 	c.IndentedJSON(http.StatusOK, todos)
+}
+
+func (t *todoController) GetTodo(c *gin.Context) {
+	id := c.Param("id")
+	todo, err := t.TodoInteractor.Get(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if todo != nil {
+		c.IndentedJSON(http.StatusOK, todo)
+	} else {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"_id": id, "founded": false})
+	}
 }
 
 func (t *todoController) CreateTodo(c *gin.Context) {

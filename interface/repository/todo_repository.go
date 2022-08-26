@@ -30,6 +30,25 @@ func (t *todoRepository) FindAll() ([]*model.Todo, error) {
 	return todos, nil
 }
 
+func (t *todoRepository) FindOne(id string) (*model.Todo, error) {
+	coll := t.db.Collection("todos")
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println("Invalid id")
+	}
+	filter := bson.D{{"_id", objectId}}
+	var todo *model.Todo
+	err = coll.FindOne(context.TODO(), filter).Decode(&todo)
+	if err == mongo.ErrNoDocuments {
+		return nil, nil
+	}
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	return todo, nil
+}
+
 func (t *todoRepository) InsertOne(todo *model.Todo) (string, error) {
 	coll := t.db.Collection("todos")
 	doc := bson.D{{"title", todo.Title}, {"body", todo.Body}}
