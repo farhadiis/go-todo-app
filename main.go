@@ -32,8 +32,8 @@ func main() {
 
 	port := utils.GetEnv("PORT")
 	log.Printf("Server listen at port %s", port)
-	err := app.Run("localhost:" + port)
+	err := app.Run(":" + port)
 	if err != nil {
-		return
+		panic(err)
 	}
 }

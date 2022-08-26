@@ -8,6 +8,7 @@ import (
 
 type TodoInteractor interface {
 	GetAll() ([]*model.Todo, error)
+	Create(*model.Todo) (string, error)
 }
 
 type todoInteractor struct {
@@ -21,6 +22,14 @@ func (t *todoInteractor) GetAll() ([]*model.Todo, error) {
 		return nil, err
 	}
 	return t.TodoPresenter.ResponseTodos(todos), nil
+}
+
+func (t *todoInteractor) Create(todo *model.Todo) (string, error) {
+	id, err := t.TodoRepository.InsertOne(todo)
+	if err != nil {
+		return "", err
+	}
+	return id, nil
 }
 
 func NewTodoInteractor(r repository.TodoRepository, p presenter.TodoPresenter) TodoInteractor {

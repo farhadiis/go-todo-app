@@ -19,7 +19,7 @@ func Connect() *mongo.Client {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("MongoDB connection successfully completed.")
+	log.Println("MongoDB connection successful")
 	return client
 }
 
