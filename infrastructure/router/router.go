@@ -7,7 +7,7 @@ import (
 
 func NewRouter(e *gin.Engine, c controller.AppController) *gin.Engine {
 
-	e.GET("/todos", c.GetTodos)
+	e.GET("/api/v1/todos", c.GetTodos)
 
 	return e
 }
