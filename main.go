@@ -19,6 +19,7 @@ func init() {
 	if mode == "production" {
 		gin.SetMode(gin.ReleaseMode)
 	}
+	log.SetPrefix("[Todos] ")
 }
 
 func main() {
