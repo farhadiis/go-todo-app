@@ -11,11 +11,11 @@ import (
 
 func Connect() *mongo.Client {
 	uri := utils.GetEnv("MONGODB_URI")
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
+	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(uri))
 	if err != nil {
 		panic(err)
 	}
-	err = client.Ping(context.TODO(), readpref.Primary())
+	err = client.Ping(context.Background(), readpref.Primary())
 	if err != nil {
 		panic(err)
 	}
@@ -24,7 +24,7 @@ func Connect() *mongo.Client {
 }
 
 func Disconnect(client *mongo.Client) {
-	if err := client.Disconnect(context.TODO()); err != nil {
+	if err := client.Disconnect(context.Background()); err != nil {
 		panic(err)
 	}
 }

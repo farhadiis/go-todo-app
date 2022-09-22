@@ -16,13 +16,13 @@ type todoRepository struct {
 
 func (t *todoRepository) FindAll() ([]*model.Todo, error) {
 	coll := t.db.Collection("todos")
-	cursor, err := coll.Find(context.TODO(), bson.D{})
+	cursor, err := coll.Find(context.Background(), bson.D{})
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 	var todos []*model.Todo
-	err = cursor.All(context.TODO(), &todos)
+	err = cursor.All(context.Background(), &todos)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -38,7 +38,7 @@ func (t *todoRepository) FindOne(id string) (*model.Todo, error) {
 	}
 	filter := bson.D{{"_id", objectId}}
 	var todo *model.Todo
-	err = coll.FindOne(context.TODO(), filter).Decode(&todo)
+	err = coll.FindOne(context.Background(), filter).Decode(&todo)
 	if err == mongo.ErrNoDocuments {
 		return nil, nil
 	}
@@ -52,7 +52,7 @@ func (t *todoRepository) FindOne(id string) (*model.Todo, error) {
 func (t *todoRepository) InsertOne(todo *model.Todo) (string, error) {
 	coll := t.db.Collection("todos")
 	doc := bson.D{{"title", todo.Title}, {"body", todo.Body}}
-	result, err := coll.InsertOne(context.TODO(), doc)
+	result, err := coll.InsertOne(context.Background(), doc)
 	if err != nil {
 		log.Println(err)
 		return "", err
@@ -68,7 +68,7 @@ func (t *todoRepository) DeleteOne(id string) (int64, error) {
 		log.Println("Invalid id")
 	}
 	filter := bson.D{{"_id", objectId}}
-	result, err := coll.DeleteOne(context.TODO(), filter)
+	result, err := coll.DeleteOne(context.Background(), filter)
 	if err != nil {
 		log.Println(err)
 		return -1, err
